@@ -1,29 +1,23 @@
-package cst438hw2.controller;
+package com.cst438.assignment2.controller;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
-
-
+import com.cst438.assignment2.domain.*;
+import com.cst438.assignment2.service.*;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.json.JacksonTester;
 import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.mock.web.MockHttpServletResponse;
+import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-
-import cst438hw2.domain.*;
-import cst438hw2.service.CityService;
-
-import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @WebMvcTest(CityRestController.class)
@@ -32,6 +26,9 @@ public class CityRestControllerTest {
 	@MockBean
 	private CityService cityService;
 
+	@MockBean
+	private WeatherService weatherService;
+	
 	@Autowired
 	private MockMvc mvc;
 
@@ -49,8 +46,17 @@ public class CityRestControllerTest {
 
 	@Test
 	public void getCityInfo() throws Exception {
-		
-		// TODO your code goes here
+		CityInfo cityInfo = new CityInfo(1, "Test_City", "CTS", "County_Test", "District_Test", 9000, 80.62, "18:56");
+
+		given(cityService.getCityInfo("Test_City")).willReturn(cityInfo);
+
+		MockHttpServletResponse response = mvc.perform(get("/api/cities/Test_City")).andReturn().getResponse();
+
+		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
+
+		CityInfo returnedCityInfo = json.parseObject(response.getContentAsString());
+
+		assertThat(cityInfo).isEqualTo(returnedCityInfo);
 	}
 
 }

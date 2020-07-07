@@ -10,6 +10,17 @@ public class CityInfo {
 	 int population;
 	 double temp;
 	 String time;
+
+	public CityInfo() {
+		this.id = -1;
+		this.name = null;
+		this.countryCode = null;
+		this.countryName = null;
+		this.district = null;
+		this.population = -1;
+		this.temp = -1.0;
+		this.time = null;
+	}
 	 
 	 public CityInfo(City city, String countryName, double temp, String time) {
 		 this.id = city.getId();

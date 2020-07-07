@@ -5,10 +5,13 @@ public class TempAndTime {
 	public long time;
 	public int timezone;
 
-	public double getTemp() {
-		temp = (temp - 273.15) * 9.0/5.0 + 32.0;
-		return temp;
+	public TempAndTime(double temp, long time, int timezone){
+		this.temp = temp;
+		this.time = time;
+		this.timezone = timezone;
 	}
+
+	public double getTemp() { return temp; }
 
 	public void setTemp(double temp) {
 		this.temp = temp;
@@ -30,9 +33,7 @@ public class TempAndTime {
 		this.timezone = timezone;
 	}
 
-	public TempAndTime(double temp, long time, int timezone){
-		this.temp = temp;
-		this.time = time;
-		this.timezone = timezone;
+	public double getFahr() {
+		return Math.round(this.temp - 273.15) * 9.0 / 5.0 + 32.0;
 	}
  }
