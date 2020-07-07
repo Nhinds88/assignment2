@@ -1,5 +1,8 @@
 package com.cst438.assignment2.domain;
 
+import java.time.Instant;
+import java.time.ZoneOffset;
+
 public class TempAndTime {
 	public double temp;
 	public long time;
@@ -17,9 +20,7 @@ public class TempAndTime {
 		this.temp = temp;
 	}
 
-	public long getTime() {
-		return time;
-	}
+	public long getTime() { return time; }
 
 	public void setTime(long time) {
 		this.time = time;
@@ -34,6 +35,21 @@ public class TempAndTime {
 	}
 
 	public double getFahr() {
-		return Math.round(this.temp - 273.15) * 9.0 / 5.0 + 32.0;
+		return Math.round(((getTemp() - 273.15) * 9.0 / 5.0 + 32.0) * 100) / 100;
+	}
+
+	public String getLocalTime() {
+//		long offset = getTime() + getTimezone();
+//		Instant javaTime = Instant.ofEpochSecond(offset);
+//		int h = javaTime.atZone(ZoneOffset.UTC).getHour();
+//		int m = javaTime.atZone(ZoneOffset.UTC).getMinute();
+//		String localTime = h + ":" + m;
+//		return localTime;
+		long timeOffset = getTime() + getTimezone();
+		Instant unixTime = Instant.ofEpochSecond(timeOffset);
+		int hour = unixTime.atZone(ZoneOffset.UTC).getHour();
+		int minute = unixTime.atZone(ZoneOffset.UTC).getMinute();
+		String strTime = hour + ":" + minute;
+		return strTime;
 	}
  }

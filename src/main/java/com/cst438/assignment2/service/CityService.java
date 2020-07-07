@@ -1,14 +1,10 @@
 package com.cst438.assignment2.service;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
-import java.util.List;
-import java.util.TimeZone;
-
+import com.cst438.assignment2.domain.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import com.cst438.assignment2.domain.*;
+import java.util.List;
 
 @Service
 public class CityService {
@@ -34,7 +30,7 @@ public class CityService {
 		Country country = countryRepository.findByCode(c.getCountryCode());
 		TempAndTime weather = weatherService.getTempAndTime(cityName);
 
-		return new CityInfo(c, country.getName(), weather.getTemp(), Long.toString(weather.getTime()));
+		return new CityInfo(c, country.getName(), weather.getFahr(), weather.getLocalTime());
 	}
 	
 }
