@@ -35,43 +35,50 @@ public class CityServiceTest {
 
 	@Test
 	public void testCityFound() throws Exception {
-
+		// test city setup and added to arraylist
 		Country country = new Country("CTS", "CountryTest");
 		City city = new City(1, "CityTest", "CTS", "DistrictTest", 1000);
 
 		List<City> cityList = new ArrayList<City>();
 		cityList.add(city);
 
-		given(weatherService.getTempAndTime("CityTest")).willReturn(new TempAndTime(296.99, 1594097934, -14400));
+		// three givens for the mock services
+		given(weatherService.getTempAndTime("CityTest")).willReturn(new TempAndTime(290.41, 1594156817, 	-25200));
 		given(cityRepository.findByName("CityTest")).willReturn(cityList);
 		given(countryRepository.findByCode("CTS")).willReturn(country);
 
+		// get the city created setup the expected return
 		CityInfo resultCityInfo = cityService.getCityInfo("CityTest");
-		CityInfo expectedCityInfo = new CityInfo(1, "CityTest", "CTS", "CountryTest", "DistrictTest", 1000, 74.0, "0:58");
+		CityInfo expectedCityInfo = new CityInfo(1, "CityTest", "CTS", "CountryTest", "DistrictTest", 1000, 63.0, "02:20 PM");
 
+		// final assert test
 		assertThat(resultCityInfo).isEqualTo(expectedCityInfo);
 	}
 
 	@Test
 	public void  testCityNotFound() {
-
+		// test city setup and added to arraylist
 		Country country = new Country("CTS","CountryTest");
 		City city = new City(1, "CityTest","CTS","DistrictTest",1000);
 		List<City> cityList = new ArrayList<>();
 		cityList.add(city);
 
+		// three givens for the mock services
 		given(weatherService.getTempAndTime("TestCity")).willReturn(new TempAndTime(300, 100000,1000));
 		given(cityRepository.findByName("CityTest")).willReturn(cityList);
 		given(countryRepository.findByCode("CTS")).willReturn(country);
 
+		// get the city created setup the expected return
 		CityInfo resultCityInfo = cityService.getCityInfo("Random Name of City");
 		CityInfo expectedCityInfo = null;
 
+		// final assert test
 		assertThat(resultCityInfo).isEqualTo(expectedCityInfo);
 	}
 
 	@Test 
 	public void  testCityMultiple() {
+		// test cities setup and added to arraylist
 		Country country = new Country("CTS", "CountryTest");
 
 		List<City> cityList = new ArrayList<City>();
@@ -84,12 +91,16 @@ public class CityServiceTest {
 		City city4 = new City(1, "CityTest", "CTS", "DistrictTest4", 9000);
 		cityList.add(city4);
 
-		given(weatherService.getTempAndTime("CityTest")).willReturn(new TempAndTime(296.99, 1594097934, -14400));
+		// three givens for the mock services
+		given(weatherService.getTempAndTime("CityTest")).willReturn(new TempAndTime(290.41, 1594156817, 	-25200));
 		given(cityRepository.findByName("CityTest")).willReturn(cityList);
 		given(countryRepository.findByCode("CTS")).willReturn(country);
 
+		// get the city created setup the expected return
 		CityInfo resultCityInfo = cityService.getCityInfo("CityTest");
-		CityInfo expectedCityInfo = new CityInfo(1, "CityTest", "CTS", "CountryTest", "DistrictTest", 9000, 74.0, "0:58");
+		CityInfo expectedCityInfo = new CityInfo(1, "CityTest", "CTS", "CountryTest", "DistrictTest", 9000, 63.0, "02:20 PM");
+
+		// final assert test
 		assertThat(resultCityInfo).isEqualTo(expectedCityInfo);
 	}
 }

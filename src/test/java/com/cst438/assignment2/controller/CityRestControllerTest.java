@@ -25,9 +25,6 @@ public class CityRestControllerTest {
 
 	@MockBean
 	private CityService cityService;
-
-	@MockBean
-	private WeatherService weatherService;
 	
 	@Autowired
 	private MockMvc mvc;
@@ -46,17 +43,17 @@ public class CityRestControllerTest {
 
 	@Test
 	public void getCityInfo() throws Exception {
+
 		CityInfo cityInfo = new CityInfo(1, "Test_City", "CTS", "County_Test", "District_Test", 9000, 80.62, "18:56");
-
+		// given for city info
 		given(cityService.getCityInfo("Test_City")).willReturn(cityInfo);
-
+		// response from mvc
 		MockHttpServletResponse response = mvc.perform(get("/api/cities/Test_City")).andReturn().getResponse();
-
+		// check the status
 		assertThat(response.getStatus()).isEqualTo(HttpStatus.OK.value());
-
+		// convert json to an object
 		CityInfo returnedCityInfo = json.parseObject(response.getContentAsString());
-
+		// final assert test
 		assertThat(cityInfo).isEqualTo(returnedCityInfo);
 	}
-
 }

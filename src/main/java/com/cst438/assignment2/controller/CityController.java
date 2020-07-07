@@ -27,6 +27,5 @@ public class CityController {
 
 			return "city_show";
 		}
-	} 
-	
+	}
 }

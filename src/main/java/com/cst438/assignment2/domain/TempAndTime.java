@@ -1,7 +1,9 @@
 package com.cst438.assignment2.domain;
 
 import java.time.Instant;
+import java.time.OffsetDateTime;
 import java.time.ZoneOffset;
+import java.time.format.DateTimeFormatter;
 
 public class TempAndTime {
 	public double temp;
@@ -34,22 +36,24 @@ public class TempAndTime {
 		this.timezone = timezone;
 	}
 
+	// converts the Kelvin temp provided by the api to fahrenheit
 	public double getFahr() {
-		return Math.round(((getTemp() - 273.15) * 9.0 / 5.0 + 32.0) * 100) / 100;
+
+		Double f = (double) Math.round((getTemp() - 273.15) * 9.0 / 5.0 + 32.0);
+
+		return f;
 	}
 
+	// converts the UTC time provided by the api to local time by using the timezone offset, then formats in an am/pm time format
 	public String getLocalTime() {
-//		long offset = getTime() + getTimezone();
-//		Instant javaTime = Instant.ofEpochSecond(offset);
-//		int h = javaTime.atZone(ZoneOffset.UTC).getHour();
-//		int m = javaTime.atZone(ZoneOffset.UTC).getMinute();
-//		String localTime = h + ":" + m;
-//		return localTime;
-		long timeOffset = getTime() + getTimezone();
-		Instant unixTime = Instant.ofEpochSecond(timeOffset);
-		int hour = unixTime.atZone(ZoneOffset.UTC).getHour();
-		int minute = unixTime.atZone(ZoneOffset.UTC).getMinute();
-		String strTime = hour + ":" + minute;
-		return strTime;
+
+		Instant utcTime = Instant.ofEpochSecond(getTime());
+		ZoneOffset timeZone = ZoneOffset.ofTotalSeconds(getTimezone());
+		OffsetDateTime offsetDateTime = utcTime.atOffset(timeZone);
+		String format = "hh:mm a";
+		DateTimeFormatter formatter = DateTimeFormatter.ofPattern(format);
+		String localTime = offsetDateTime.format(formatter);
+
+		return localTime;
 	}
  }

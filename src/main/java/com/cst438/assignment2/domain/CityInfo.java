@@ -11,14 +11,15 @@ public class CityInfo {
 	 double temp;
 	 String time;
 
+	 // initialized the City info for the rest controller test
 	public CityInfo() {
-		this.id = -1;
+		this.id = 0;
 		this.name = null;
 		this.countryCode = null;
 		this.countryName = null;
 		this.district = null;
-		this.population = -1;
-		this.temp = -1.0;
+		this.population = 0;
+		this.temp = 0.0;
 		this.time = null;
 	}
 	 
