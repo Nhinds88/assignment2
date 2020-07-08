@@ -1,10 +1,11 @@
-package com.cst438.assignment2;
+package com.cst438.assignment2.domain;
+
+import java.util.List;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
-import java.util.List;
 
 @Repository
 public interface CityRepository extends JpaRepository<City, Long> {
-    List<City> findByName(String name);
+	List<City> findByName(String name);
 }
